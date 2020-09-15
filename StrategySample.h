@@ -26,18 +26,17 @@ public:
 	virtual void OnStrategyStart() override;
 	virtual void OnStrategyStop() override;
 	virtual string GetStrategyStatus() override;
+	//virtual StrategyParameter GetStrategyParameter();
 	virtual double GetActualInitCapital(double initCapital) override;
 	void myStrategy(const RealtimeDepthMarketDataEx& marketData);
-	void myStrategy2(const RealtimeDepthMarketDataEx& marketData);
 	void SendStrategyReport();
 	void  ExceptionStockSend(string&);
 	void  UpdateTickClass(const vector<string>&);//¸üÐÂ  ¸ÅÄî³Ø
 
+	void init();
 private:
 	InstrumentStrategyI * m_InstrumentStrategy = nullptr;
-	const Instrument m_Instrument;
 	const StrategyParameter m_StrategyParameter;
-	InstrumentStrategyContext& m_StrategyContext;
 	string isLimit;
 
 };
