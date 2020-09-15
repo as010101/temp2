@@ -21,17 +21,17 @@ public:
 	StrategySample(InstrumentStrategyI* instrumentStrategy);
 	~StrategySample();
 
-	// Í¨¹ý InstrumentStrategySpi ¼Ì³Ð
+	// é€šè¿‡ InstrumentStrategySpi ç»§æ‰¿
 	virtual void OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData) override;
 	virtual void OnStrategyStart() override;
 	virtual void OnStrategyStop() override;
-	virtual string GetStrategyStatus() override;
+    string GetStrategyStatus();
 	//virtual StrategyParameter GetStrategyParameter();
 	virtual double GetActualInitCapital(double initCapital) override;
 	void myStrategy(const RealtimeDepthMarketDataEx& marketData);
 	void SendStrategyReport();
 	void  ExceptionStockSend(string&);
-	void  UpdateTickClass(const vector<string>&);//¸üÐÂ  ¸ÅÄî³Ø
+	void  UpdateTickClass(const vector<string>&);//æ›´æ–°  æ¦‚å¿µæ± 
 
 	void init();
 private:

@@ -83,23 +83,23 @@ double StrategySample::GetActualInitCapital(double initCapital)
 
 
 /*
-¸ÅÄî´¦Àí
-Èç¹ûÔÚ¹ÉÆ±¸ÅÄî¼¯ºÏÕÒ²»µ½ Ôò·¢ËÍĞÅºÅ sendreport  Í¬Ê±Í£Ö¹²ßÂÔ
+æ¦‚å¿µå¤„ç†
+å¦‚æœåœ¨è‚¡ç¥¨æ¦‚å¿µé›†åˆæ‰¾ä¸åˆ° åˆ™å‘é€ä¿¡å· sendreport  åŒæ—¶åœæ­¢ç­–ç•¥
 
 */
 
 
 
-///   ÏÈÅĞ¶Ï¸ÃÆ±ÊÇ·ñÕÇÍ£ºó·¢¹ıÊı¾İ  ´¥·¢¹ıÁËÖ±½ÓÍ£µô²ßÂÔ£¬·ñÔòÖ´ĞĞ²ßÂÔ
-//// ÅĞ¶ÏÊ±¼ä  9£º30Ç°Í¨¹ı  bid price ÅĞ¶ÏÊÇ·ñ¼ÓËø     ´óÓÚµÈÓÚ9£º30Í¨¹ıÅĞ¶ÏlastPrice¼ÓËø    
-////    ·¢ËÍĞÅºÅ  ·ÖÁ½Àà   Ò»ÖÖÊÇ926 ÊÖ¶¯´¥·¢   ¶şÊÇ930ºó³ÌĞò´¥·¢   ´¥·¢Ö®ºó¶¼ÒªÇå¿Õ    m_TickSetClass  Ã¿´Î´¥·¢¶¼Òª½«tick¼ÓÈë m_TickLimitSet£¬Ê¹²ßÂÔ¼ì²éÍ£Ö¹
+///   å…ˆåˆ¤æ–­è¯¥ç¥¨æ˜¯å¦æ¶¨åœåå‘è¿‡æ•°æ®  è§¦å‘è¿‡äº†ç›´æ¥åœæ‰ç­–ç•¥ï¼Œå¦åˆ™æ‰§è¡Œç­–ç•¥
+//// åˆ¤æ–­æ—¶é—´  9ï¼š30å‰é€šè¿‡  bid price åˆ¤æ–­æ˜¯å¦åŠ é”     å¤§äºç­‰äº9ï¼š30é€šè¿‡åˆ¤æ–­lastPriceåŠ é”    
+////    å‘é€ä¿¡å·  åˆ†ä¸¤ç±»   ä¸€ç§æ˜¯926 æ‰‹åŠ¨è§¦å‘   äºŒæ˜¯930åç¨‹åºè§¦å‘   è§¦å‘ä¹‹åéƒ½è¦æ¸…ç©º    m_TickSetClass  æ¯æ¬¡è§¦å‘éƒ½è¦å°†tickåŠ å…¥ m_TickLimitSetï¼Œä½¿ç­–ç•¥æ£€æŸ¥åœæ­¢
 void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 {
 
 	string tick = marketData.SecurityID;
 	int time = marketData.DataTimeStamp;
 	vector<string>::iterator rlt = find(m_InstrumentStrategy->m_TickLimitSet.begin(), m_InstrumentStrategy->m_TickLimitSet.end(), tick);
-	if (rlt != m_InstrumentStrategy->m_TickLimitSet.end())             ////´¥·¢¹ıÕÇÍ£ĞÅºÅµÄstop
+	if (rlt != m_InstrumentStrategy->m_TickLimitSet.end())             ////è§¦å‘è¿‡æ¶¨åœä¿¡å·çš„stop
 	{
 		OnStrategyStop();
 	}
@@ -112,11 +112,11 @@ void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 
 			if (marketData.BidPrice1 == marketData.UpperLimitPrice)
 			{
-				m_InstrumentStrategy->m_lock.lock();   //////////ÁÙ½çÇøÓò
+				m_InstrumentStrategy->m_lock.lock();   //////////ä¸´ç•ŒåŒºåŸŸ
 				m_InstrumentStrategy->m_TickLimitSet.push_back(tick);
 				m_InstrumentStrategy->m_TickSetClass.push_back(tick);
 
-				auto  itrGetPtr = m_InstrumentStrategy->m_classPoolPtr.find(tick);   ///Ä³Ö»¹ÉÆ±µÄ¸ÅÄî   ÕÇÍ£¹ıµÄºóÃæ»áÔÙ´¥·¢£¬Òª±£Ö¤´¥·¢¹ıµÄ²»ÔÙ´¥·¢  ±£Áô  
+				auto  itrGetPtr = m_InstrumentStrategy->m_classPoolPtr.find(tick);   ///æŸåªè‚¡ç¥¨çš„æ¦‚å¿µ   æ¶¨åœè¿‡çš„åé¢ä¼šå†è§¦å‘ï¼Œè¦ä¿è¯è§¦å‘è¿‡çš„ä¸å†è§¦å‘  ä¿ç•™  
 				auto  itrGetCopy = m_InstrumentStrategy->m_classPoolCopy.find(tick);
 
 				//auto   itrGetTickClass = m_InstrumentStrategy->m_allTickClass;
@@ -125,18 +125,18 @@ void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 					[&tick](const std::pair<std::string, vector<string>>& element) { return element.first == tick; });
 				
 
-				if (rlt != m_InstrumentStrategy->m_allTickClass.end())   //ÕÒµ½¹ÉÆ±¶ÔÓ¦µÄ¸ÅÄî    Öğ¸ö¼ì²é¸ÅÄî²¢¸üĞÂ
+				if (rlt != m_InstrumentStrategy->m_allTickClass.end())   //æ‰¾åˆ°è‚¡ç¥¨å¯¹åº”çš„æ¦‚å¿µ    é€ä¸ªæ£€æŸ¥æ¦‚å¿µå¹¶æ›´æ–°
 				{
 
 					UpdateTickClass((*rlt).second);
 				}
-				else///Òì³£ÖÕÖ¹
+				else///å¼‚å¸¸ç»ˆæ­¢
 				{
 					ExceptionStockSend(tick);
 				}
 
 
-				//if (itrGetPtr != m_InstrumentStrategy->m_classPoolPtr.end())   ///ÒÑ´æÔÚ
+				//if (itrGetPtr != m_InstrumentStrategy->m_classPoolPtr.end())   ///å·²å­˜åœ¨
 				//{
 				//	(*itrGetPtr).second++;
 				//}
@@ -146,7 +146,7 @@ void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 
 				//}
 
-				//if (itrGetCopy != m_InstrumentStrategy->m_classPoolCopy.end())   ///ÒÑ´æÔÚ
+				//if (itrGetCopy != m_InstrumentStrategy->m_classPoolCopy.end())   ///å·²å­˜åœ¨
 				//{
 				//	(*itrGetCopy).second++;
 
@@ -163,16 +163,16 @@ void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 		{
 
 
-			////¾ÅµãÈıÊ®ºóÖ»¸üĞÂ m_classPoolCopy
+			////ä¹ç‚¹ä¸‰åååªæ›´æ–° m_classPoolCopy
 			if (marketData.LastPrice == marketData.UpdatePrice)
 			{
 
-				m_InstrumentStrategy->m_lock.lock();	 //////////ÁÙ½çÇøÓò
+				m_InstrumentStrategy->m_lock.lock();	 //////////ä¸´ç•ŒåŒºåŸŸ
 				m_InstrumentStrategy->m_TickLimitSet.push_back(tick);
 				m_InstrumentStrategy->m_TickSetClass.push_back(tick);
 
 				auto  itrGetCopy = m_InstrumentStrategy->m_classPoolCopy.find(tick);
-				if (itrGetCopy != m_InstrumentStrategy->m_classPoolCopy.end())   ///ÒÑ´æÔÚ
+				if (itrGetCopy != m_InstrumentStrategy->m_classPoolCopy.end())   ///å·²å­˜åœ¨
 				{
 					(*itrGetCopy).second++;
 					SendStrategyReport();
@@ -193,7 +193,7 @@ void StrategySample::myStrategy(const RealtimeDepthMarketDataEx& marketData)
 		
 	}
 	//map<string, int> classPoolPtr, classPoolCopy;
-	//vector<pair<string, vector<string>>>       allTickClass;     /// ËùÓĞ¹ÉÆ±µÄ¸ÅÄî
+	//vector<pair<string, vector<string>>>       allTickClass;     /// æ‰€æœ‰è‚¡ç¥¨çš„æ¦‚å¿µ
 
 
 }
@@ -285,7 +285,7 @@ void StrategySample::SendStrategyReport()
 	report.Text = AllText;
 //	m_InstrumentStrategy->SendExecuteReportToClient(report);
 
-	m_InstrumentStrategy->m_TickSetClass.clear();        ///Çå¿ÕÊı¾İ
+	m_InstrumentStrategy->m_TickSetClass.clear();        ///æ¸…ç©ºæ•°æ®
 
 }
 
@@ -293,7 +293,7 @@ void StrategySample::ExceptionStockSend(string &str)
 {
 	StrategyExecuteReport report;
 	report.StrategyName = "tickClass";
-	string text = str+"--¸ÅÄîÎÄ¼şÖĞÃ»ÓĞ¸Ã¹ÉÆ±";
+	string text = str+"--æ¦‚å¿µæ–‡ä»¶ä¸­æ²¡æœ‰è¯¥è‚¡ç¥¨";
 //	m_InstrumentStrategy->SendExecuteReportToClient(report);
 	OnStrategyStop();
 }
@@ -304,7 +304,7 @@ void StrategySample::UpdateTickClass(const vector<string>& tickClass)
 	{
 		auto itrPtr = m_InstrumentStrategy->m_classPoolPtr.find(ele);
 		auto itrCpy=m_InstrumentStrategy->m_classPoolCopy.find(ele);
-		if (itrPtr != m_InstrumentStrategy->m_classPoolPtr.end())  ///ÕÒµ½Ä³¸ö¸ÅÄîÁË
+		if (itrPtr != m_InstrumentStrategy->m_classPoolPtr.end())  ///æ‰¾åˆ°æŸä¸ªæ¦‚å¿µäº†
 		{
 			(*itrPtr).second++;
 		}
@@ -313,7 +313,7 @@ void StrategySample::UpdateTickClass(const vector<string>& tickClass)
 			m_InstrumentStrategy->m_classPoolPtr.insert(make_pair(ele,1));
 		}
 
-		if (itrCpy != m_InstrumentStrategy->m_classPoolCopy.end())  ///ÕÒµ½Ä³¸ö¸ÅÄîÁË
+		if (itrCpy != m_InstrumentStrategy->m_classPoolCopy.end())  ///æ‰¾åˆ°æŸä¸ªæ¦‚å¿µäº†
 		{
 			(*itrCpy).second++;
 		}

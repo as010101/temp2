@@ -13,19 +13,19 @@
 // txt    tick time
 
 //classPoolPtr
-//9:30 Ç°Ê¹ÓÃshare_ptr
-//9£º30ºócopy classPoolCopyµÄnum
-//³õÊ¼»¯ËùÓĞtick ºÍ¸ÅÄî
-//9£º30Ç°  ÊµÊ±¸üĞÂ
+//9:30 å‰ä½¿ç”¨share_ptr
+//9ï¼š30åcopy classPoolCopyçš„num
+//åˆå§‹åŒ–æ‰€æœ‰tick å’Œæ¦‚å¿µ
+//9ï¼š30å‰  å®æ—¶æ›´æ–°
 //
-//1.¸üĞÂËùÓĞ¶ÔÓ¦tick µÄ ¸ÅÄî  ÊµÊ±¸üĞÂ classPoolPtr  classPoolCopy
+//1.æ›´æ–°æ‰€æœ‰å¯¹åº”tick çš„ æ¦‚å¿µ  å®æ—¶æ›´æ–° classPoolPtr  classPoolCopy
 //tick  tickclass  tickclassNum
 //
 //
-//2 9£º30ºóÖ»¸üĞÂ¶ÔÓ¦tick µÄ ¸ÅÄî  ÊµÊ±¸üĞÂ classPoolCopy
+//2 9ï¼š30ååªæ›´æ–°å¯¹åº”tick çš„ æ¦‚å¿µ  å®æ—¶æ›´æ–° classPoolCopy
 //tick  tickclass  tickclassNum
 //
-//3.   9:30Ç°´ÓclassPoolPtr   È¡
+//3.   9:30å‰ä»classPoolPtr   å–
 
 //struct classPool
 //{
@@ -50,15 +50,15 @@ using PoolElement = map<string, int>;
 int main()
 {
 	
-	std::string s = "ÖĞÎÄ";
+	std::string s = "ä¸­æ–‡";
 	ifstream  ss1();
 	for (size_t i = 0; i < s.size(); ++i)
 	{
 		std::cout << i << " " << std::hex << static_cast<int>(static_cast<uint8_t>(s[i])) << std::endl;
 	}
-	//string mypars = "{\"000000\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"],\"000001\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"]}";
+	//string mypars = "{\"000000\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"],\"000001\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"]}";
 	//string mypars = R"({"000000":["2","2"],"000001":["2","2"]})"_json;
-//	json j = "{\"000000\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"],\"000001\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"]}"_json;
+//	json j = "{\"000000\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"],\"000001\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"]}"_json;
 	//string mypars;
 	//ifstream  in("my.json");
 	//while
@@ -74,11 +74,11 @@ int main()
  // "baz": ["one", "two", "three"],
  // "foo": ["one", "two", "three"]})"_json;
 		
-//	json j = "{\"000000\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"],\"000001\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"]}"_json;
+//	json j = "{\"000000\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"],\"000001\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"]}"_json;
 
-	//auto jsosns = json::parse("{\"000000\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"],\"000001\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"]}");
+	//auto jsosns = json::parse("{\"000000\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"],\"000001\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"]}");
 	//string 
-	//auto jsosns=json::parse("{\"000000\":[\"ÒøĞĞ\",\"½ğÈÚ·şÎñ\"]}");
+	//auto jsosns=json::parse("{\"000000\":[\"é“¶è¡Œ\",\"é‡‘èæœåŠ¡\"]}");
 	RealtimeDepthMarketDataEx testData;	
 	testData.LastPrice = 1.2;
 	testData.BidPrice1= 1.2;
@@ -120,13 +120,13 @@ int main()
 
 	string time="9150101000";
 	map<string, int> classPoolPtr, classPoolCopy;
-	vector<pair<string, vector<string>>>       allTickClass;     /// ËùÓĞ¹ÉÆ±µÄ¸ÅÄî
+	vector<pair<string, vector<string>>>       allTickClass;     /// æ‰€æœ‰è‚¡ç¥¨çš„æ¦‚å¿µ
 
 	if (stoi(time) < 93000000)
 	{
 		auto  itrGetPtr = classPoolPtr.find(tick);
 		auto  itrGetCopy = classPoolCopy.find(tick);
-		if (itrGetPtr != classPoolPtr.end())   ///ÒÑ´æÔÚ
+		if (itrGetPtr != classPoolPtr.end())   ///å·²å­˜åœ¨
 		{
 			(*itrGetPtr).second++;
 		}
@@ -136,7 +136,7 @@ int main()
 
 		}
 
-		if (itrGetCopy != classPoolPtr.end())   ///ÒÑ´æÔÚ
+		if (itrGetCopy != classPoolPtr.end())   ///å·²å­˜åœ¨
 		{
 			(*itrGetCopy).second++;
 
@@ -149,10 +149,10 @@ int main()
 
 
 	}
-	else              ///9:30ºóµÄ´¦Àí
+	else              ///9:30åçš„å¤„ç†
 	{
 		auto  itrGetCopy = classPoolCopy.find(tick);
-		if (itrGetCopy != classPoolPtr.end())   ///ÒÑ´æÔÚ
+		if (itrGetCopy != classPoolPtr.end())   ///å·²å­˜åœ¨
 		{
 			(*itrGetCopy).second++;
 

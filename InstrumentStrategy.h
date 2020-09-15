@@ -12,47 +12,47 @@ using namespace Lev2;
 class InstrumentStrategyI
 {
 public:
-	////»ñÈ¡²ßÂÔÃû³Æ
+	////è·å–ç­–ç•¥åç§°
 	//virtual string Name() = 0;
-	////»ñÈ¡µ±Ç°²ßÂÔµÄºÏÔ¼ĞÅÏ¢
+	////è·å–å½“å‰ç­–ç•¥çš„åˆçº¦ä¿¡æ¯
 	//virtual Instrument GetInstrument()=0;
-	////»ñÈ¡µ±Ç°²ßÂÔ²ÎÊıÉèÖÃ
+	////è·å–å½“å‰ç­–ç•¥å‚æ•°è®¾ç½®
 	//virtual StrategyParameter GetStrategyParameter() = 0;
-	////»ñÈ¡µ±Ç°²ßÂÔÔËĞĞÊ±×´Ì¬
+	////è·å–å½“å‰ç­–ç•¥è¿è¡Œæ—¶çŠ¶æ€
 	//virtual InstrumentStrategyContext& GetInstrumentStrategyContext() = 0;
-	////°´ºÏÔ¼ĞÅÏ¢ÖĞµÄ¼ÛºÍÁ¿·¢ËÍÂòµ¥
+	////æŒ‰åˆçº¦ä¿¡æ¯ä¸­çš„ä»·å’Œé‡å‘é€ä¹°å•
 	//virtual void SendBuyOrder() = 0;
-	////³·ÏúÅÅ¶ÓÖĞµÄÎ¯ÍĞ£¨Âòµ¥»òÂôµ¥£©£¬²ÎÊısInfoÖ¸¶¨¹ıÂËÌõ¼ş£¬Âú×ãÌØ¶¨Ìõ¼şµÄÎ¯ÍĞ²Å»á³·µ¥
+	////æ’¤é”€æ’é˜Ÿä¸­çš„å§”æ‰˜ï¼ˆä¹°å•æˆ–å–å•ï¼‰ï¼Œå‚æ•°sInfoæŒ‡å®šè¿‡æ»¤æ¡ä»¶ï¼Œæ»¡è¶³ç‰¹å®šæ¡ä»¶çš„å§”æ‰˜æ‰ä¼šæ’¤å•
 	//virtual void SendCancelOrder(const string& sInfo = "") = 0;
-	////·¢ËÍÖ´ĞĞ±¨¸æÖÁ¿Í»§¶Ë
+	////å‘é€æ‰§è¡ŒæŠ¥å‘Šè‡³å®¢æˆ·ç«¯
 	//virtual void SendExecuteReportToClient(StrategyExecuteReport&) = 0;
-	////»ñÈ¡µ±Ç°²ßÂÔµÄ·şÎñ¶ËÖ´ĞĞ±¨¸æ
+	////è·å–å½“å‰ç­–ç•¥çš„æœåŠ¡ç«¯æ‰§è¡ŒæŠ¥å‘Š
 	//virtual InstrumentStrategyExecuteReport& GetInstrumentStrategyExecuteReport() = 0;
-	////±£´æ·şÎñ¶ËÖ´ĞĞ±¨¸æ
+	////ä¿å­˜æœåŠ¡ç«¯æ‰§è¡ŒæŠ¥å‘Š
 	//virtual void SaveInstrumentStrategyExecuteReport() = 0;
-	////²éÑ¯µ±Ç°²ßÂÔµÄÎ¯ÍĞµ¥ĞÅÏ¢
+	////æŸ¥è¯¢å½“å‰ç­–ç•¥çš„å§”æ‰˜å•ä¿¡æ¯
 	//virtual StrategyOrderInfo QryStrategyOrderInfo() = 0;
-	////¼ÇÂ¼ÈÕÖ¾
+	////è®°å½•æ—¥å¿—
 	//virtual void writelog(const string categary, const int dataTimeStamp, const string text) = 0;
-	////ÅĞ¶Ïµ±Ç°²ßÂÔÊÇ·ñÓĞµ±ÈÕÂòµ¥
+	////åˆ¤æ–­å½“å‰ç­–ç•¥æ˜¯å¦æœ‰å½“æ—¥ä¹°å•
 	//virtual bool HasBuyOrders() = 0;
-	////»ñÈ¡¿ÉÓÃ³Ö²Ö
+	////è·å–å¯ç”¨æŒä»“
 	//virtual map<string, long> GetAvailablePositions() = 0;
-	////Âòµ¥´¥·¢ºóÖÃ´¦Àí
+	////ä¹°å•è§¦å‘åç½®å¤„ç†
 	//virtual void PostBuyTriggered() = 0;
 
-	////Æô¶¯TWAPÂô³öÈÎÎñ
+	////å¯åŠ¨TWAPå–å‡ºä»»åŠ¡
 	//virtual void StartTWAPSell() = 0;
-	////Æô¶¯¿ª°åTWAPÂô³ö
+	////å¯åŠ¨å¼€æ¿TWAPå–å‡º
 	//virtual void StartSellUplmt() = 0;
-	////Æô¶¯¼¯ºÏ¾º¼ÛÂô³ö
+	////å¯åŠ¨é›†åˆç«ä»·å–å‡º
 	//virtual void StartSellAuction() = 0;
 
 	map<string, int> m_classPoolPtr, m_classPoolCopy;//////////
-	vector<pair<string, vector<string>>>     m_allTickClass;     /// ËùÓĞ¹ÉÆ±µÄ¸ÅÄî
-	vector<string>     m_TickSetClass;     /// ¼¯ºÏ¾º¼ÛÕÇÍ£ÏµÁĞ  Ò»´Î·µ»ØËùÓĞ  tick  tickclass tickclassNum    Á¬Ğø¾º¼Û  Ò»´Î·µ»ØÒ»Ö»
-	vector<string>     m_TickLimitSet;     /// ´¥·¢¹ıÕÇÍ£µÄÆ±Òª¼ÇÂ¼  Ê¹µÃÄ³Æ±²ßÂÔÍ£Ö¹
-	  /// Á¬Ğø¾º¼ÛÕÇÍ£ÏµÁĞ  Ã¿´Î´¥·¢Ö»·µ»ØÒ»¸öÆ± tick  tickclass tickclassNum    Ê¹ÓÃ  m_TickSetClass£¬Ã¿´Î·µ»ØÊı¾İ¶¼ÒªÇå¿Õ
+	vector<pair<string, vector<string>>>     m_allTickClass;     /// æ‰€æœ‰è‚¡ç¥¨çš„æ¦‚å¿µ
+	vector<string>     m_TickSetClass;     /// é›†åˆç«ä»·æ¶¨åœç³»åˆ—  ä¸€æ¬¡è¿”å›æ‰€æœ‰  tick  tickclass tickclassNum    è¿ç»­ç«ä»·  ä¸€æ¬¡è¿”å›ä¸€åª
+	vector<string>     m_TickLimitSet;     /// è§¦å‘è¿‡æ¶¨åœçš„ç¥¨è¦è®°å½•  ä½¿å¾—æŸç¥¨ç­–ç•¥åœæ­¢
+	  /// è¿ç»­ç«ä»·æ¶¨åœç³»åˆ—  æ¯æ¬¡è§¦å‘åªè¿”å›ä¸€ä¸ªç¥¨ tick  tickclass tickclassNum    ä½¿ç”¨  m_TickSetClassï¼Œæ¯æ¬¡è¿”å›æ•°æ®éƒ½è¦æ¸…ç©º
 	mutex  m_lock;
 };
 
@@ -61,25 +61,25 @@ class InstrumentStrategySpi
 {
 public:
 	/**
-	*ĞĞÇéÁ÷Èë²ßÂÔµÄÖ÷Èë¿Ú
+	*è¡Œæƒ…æµå…¥ç­–ç•¥çš„ä¸»å…¥å£
 	*/
 	virtual void OnRealtimeMarketData(const RealtimeDepthMarketDataEx& marketData)=0;
 
 	/**
-	*²ßÂÔÆô¶¯Ê±µ÷ÓÃ´Ë·½·¨£¬Íê³ÉÇ°²ßÂÔ²»×öÈÎºÎÆäËû´¦Àí
+	*ç­–ç•¥å¯åŠ¨æ—¶è°ƒç”¨æ­¤æ–¹æ³•ï¼Œå®Œæˆå‰ç­–ç•¥ä¸åšä»»ä½•å…¶ä»–å¤„ç†
 	*/
 	virtual void OnStrategyStart()=0;
 
 	/**
-	*²ßÂÔÍ£Ö¹Ê±µ÷ÓÃ´Ë·½·¨
+	*ç­–ç•¥åœæ­¢æ—¶è°ƒç”¨æ­¤æ–¹æ³•
 	*/
 	virtual void OnStrategyStop()=0;
 
-	/*²ßÂÔ×´Ì¬²éÑ¯*/
+	/*ç­–ç•¥çŠ¶æ€æŸ¥è¯¢*/
 	virtual string GetStrategyStatus() = 0;
 
-	/*¶¯Ì¬µ÷²Ö
-	*@param initCapital ³õÊ¼²ÖÎ»½ğ¶î
+	/*åŠ¨æ€è°ƒä»“
+	*@param initCapital åˆå§‹ä»“ä½é‡‘é¢
 	*/
 	virtual double GetActualInitCapital(double initCapital) = 0;
 
