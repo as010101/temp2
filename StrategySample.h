@@ -21,24 +21,23 @@ public:
 	StrategySample(InstrumentStrategyI* instrumentStrategy);
 	~StrategySample();
 
-	// é€šè¿‡ InstrumentStrategySpi ç»§æ‰¿
+	// Í¨¹ý InstrumentStrategySpi ¼Ì³Ð
 	virtual void OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData) override;
 	virtual void OnStrategyStart() override;
 	virtual void OnStrategyStop() override;
-    string GetStrategyStatus();
-	//virtual StrategyParameter GetStrategyParameter();
+	virtual string GetStrategyStatus() override;
 	virtual double GetActualInitCapital(double initCapital) override;
-	void myStrategy(const RealtimeDepthMarketDataEx& marketData);
-	void SendStrategyReport();
-	void  ExceptionStockSend(string&);
-	void  UpdateTickClass(const vector<string>&);//æ›´æ–°  æ¦‚å¿µæ± 
 
-	void init();
 private:
 	InstrumentStrategyI * m_InstrumentStrategy = nullptr;
+	const Instrument m_Instrument;
 	const StrategyParameter m_StrategyParameter;
-	string isLimit;
-
+	InstrumentStrategyContext& m_StrategyContext;
+	int m_isLimit=0;					
+	int m_minVolume=0;
+	double m_minPrice=0;
+	int m_preSendVolume=0;   //·âµ¥Á¿µÄpriceÖ»¿ÉÄÜÊÇlimitPrice
+	double m_preSendPrice=0;
 };
 
 #endif

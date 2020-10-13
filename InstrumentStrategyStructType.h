@@ -160,7 +160,7 @@ namespace stgapi
 		
 	};
 	/**
-	* ç™½åå•ä¸­çš„è´¦æˆ·èµ„é‡‘åˆ†é…ä¿¡æ¯
+	* °×Ãûµ¥ÖĞµÄÕË»§×Ê½ğ·ÖÅäĞÅÏ¢
 	*/
 	struct InstrumentAccountInfo
 	{
@@ -171,7 +171,7 @@ namespace stgapi
 
 	typedef ::std::map< ::std::string, ::std::string> PropertyDictionary;
 	/**
-	* äº¤æ˜“åˆçº¦å®šä¹‰ï¼Œç™½åå•ä¸­ä¸€è¡Œ
+	* ½»Ò×ºÏÔ¼¶¨Òå£¬°×Ãûµ¥ÖĞÒ»ĞĞ
 	*/
 	struct Instrument
 	{
@@ -197,7 +197,7 @@ namespace stgapi
 	};
 
 	/**
-	* è§¦å‘å™¨å®šä¹‰
+	* ´¥·¢Æ÷¶¨Òå
 	*/
 	struct TriggerParameter
 	{
@@ -266,7 +266,7 @@ namespace stgapi
 
 
 	/**
-	* ç­–ç•¥å‚æ•°å®šä¹‰
+	* ²ßÂÔ²ÎÊı¶¨Òå
 	*/
 	struct StrategyParameter
 	{
@@ -296,62 +296,62 @@ namespace stgapi
 		int TimeBegin;
 		int TimeEnd;
 		/**
-		* åˆå§‹ç™½åå•åç§°
+		* ³õÊ¼°×Ãûµ¥Ãû³Æ
 		*/
 		::std::string InstrumentListName;
 		/**
-		* å•ç¬”å§”æ‰˜é‡æ‹†å•ä¸Šé™
+		* µ¥±ÊÎ¯ÍĞÁ¿²ğµ¥ÉÏÏŞ
 		*/
 		long long int BidVolumeUpperLimit;
 		/**
-		* å•ç¬”å§”æ‰˜é‡æ‹†å•ä¸‹é™
+		* µ¥±ÊÎ¯ÍĞÁ¿²ğµ¥ÏÂÏŞ
 		*/
 		long long int BidVolumeLowerLimit;
 		/**
-		* å¯é‡å¤ä¹°å…¥æ¬¡æ•°
+		* ¿ÉÖØ¸´ÂòÈë´ÎÊı
 		*/
 		int BuyRepeatTimes;
 		/**
-		* è¡Œæƒ…å»¶æ—¶é˜ˆå€¼(ç§’)
+		* ĞĞÇéÑÓÊ±ãĞÖµ(Ãë)
 		*/
 		int LaterThanLocalTimeThreshold;
 		/**
-		* ä¹°å…¥è§¦å‘ä¸ªè‚¡ä¸Šé™
+		* ÂòÈë´¥·¢¸ö¹ÉÉÏÏŞ
 		*/
 		int BuyInstrumentNumUpperLimit;
 		/**
-		* TWAPæ¯æ¬¡æ ‡å‡†å–å‡ºé‡é™¤æ•°
+		* TWAPÃ¿´Î±ê×¼Âô³öÁ¿³ıÊı
 		*/
 		int TwapSellNoofTimes;
 		/**
-		* TWAPå–å‡ºæ—¶é—´é—´éš”(ç§’)
+		* TWAPÂô³öÊ±¼ä¼ä¸ô(Ãë)
 		*/
 		int TwapSellTimeInterval;
 		/**
-		* TWAPå–å‡ºæœªæˆäº¤æ’¤å•é—´éš”(ç§’)
+		* TWAPÂô³öÎ´³É½»³·µ¥¼ä¸ô(Ãë)
 		*/
 		int TwapCancelTimeInterval;
 		/**
-		* é›†åˆç«ä»·å–å‡ºæ—¶é—´æå‰é‡(ms)
+		* ¼¯ºÏ¾º¼ÛÂô³öÊ±¼äÌáÇ°Á¿(ms)
 		*/
 		int AuctionSellTimeAhead;
 		/**
-		* è®¡åˆ’å–å‡ºæ¯”ä¾‹(%)
+		* ¼Æ»®Âô³ö±ÈÀı(%)
 		*/
 		int ProposedSellingPercent;
 		/**
-		* å•ç¬”å–å‡ºé‡‘é¢ä¸‹é™
+		* µ¥±ÊÂô³ö½ğ¶îÏÂÏŞ
 		*/
 		double LowerLimitSellAmount;
 		/**
-		* é›†åˆç«ä»·å–å•ä»·æ ¼ä¸‹æµ®è°ƒèŠ‚é‡(åˆ†)
+		* ¼¯ºÏ¾º¼ÛÂôµ¥¼Û¸ñÏÂ¸¡µ÷½ÚÁ¿(·Ö)
 		*/
 		int AuctionPriceDelt;
 		TriggerParameter BuyTriggerParameter;
 		TriggerParameter SellTriggerParameter;
 		TriggerParameter CancelTriggerParameter;
 		/**
-		* é™„åŠ åŠ¨æ€å±æ€§
+		* ¸½¼Ó¶¯Ì¬ÊôĞÔ
 		*/
 		PropertyDictionary ExProperties;
 	};
@@ -361,35 +361,35 @@ using namespace Lev2;
 using namespace stgapi;
 struct InstrumentStrategyContext
 {
-	//å½“å‰ç›˜å£
+	//µ±Ç°ÅÌ¿Ú
 	RealtimeDepthMarketDataEx MarketData;
-	//æ˜¯å¦å·²è§¦å‘ä¹°å…¥
+	//ÊÇ·ñÒÑ´¥·¢ÂòÈë
 	bool IsBuyTriggered = false;
-	//è§¦å‘ä¹°å…¥çš„ç›˜å£è¡Œæƒ…å¿«ç…§
+	//´¥·¢ÂòÈëµÄÅÌ¿ÚĞĞÇé¿ìÕÕ
 	RealtimeDepthMarketDataEx MarketDataBuyTriggered;
-	//æ˜¯å¦å·²è§¦å‘å–å‡º
+	//ÊÇ·ñÒÑ´¥·¢Âô³ö
 	bool IsSellTriggered = false;
-	//è§¦å‘å–å‡ºçš„ç›˜å£è¡Œæƒ…å¿«ç…§
+	//´¥·¢Âô³öµÄÅÌ¿ÚĞĞÇé¿ìÕÕ
 	RealtimeDepthMarketDataEx MarketDataSellTriggered;
-	//æ˜¯å¦å·²è§¦å‘æ’¤å•
+	//ÊÇ·ñÒÑ´¥·¢³·µ¥
 	bool IsCancelTriggered = false;
-	//è§¦å‘æ’¤å•çš„ç›˜å£è¡Œæƒ…å¿«ç…§
+	//´¥·¢³·µ¥µÄÅÌ¿ÚĞĞÇé¿ìÕÕ
 	RealtimeDepthMarketDataEx MarketDataCancelTriggered;
 
-	//ä¹°å…¥è§¦å‘æ¬¡æ•°
+	//ÂòÈë´¥·¢´ÎÊı
 	int  NumberOfBuyTriggered = 0;
-	//æ˜¯å¦å…è®¸ä¹°å…¥
+	//ÊÇ·ñÔÊĞíÂòÈë
 	bool IsBuyable = true;
-	//ç­–ç•¥é‡ç½®æ¬¡æ•°
+	//²ßÂÔÖØÖÃ´ÎÊı
 	int ResetTimes = 0;
-	//è®¡åˆ’å–å‡ºé‡
+	//¼Æ»®Âô³öÁ¿
 	long ProposedSellingQty = 0;
-	//æ˜¯å¦ç¦æ­¢å¼€æ¿å–å‡º
+	//ÊÇ·ñ½ûÖ¹¿ª°åÂô³ö
 	bool DisableSellUpDown = false;
 
-	//å†å²æŒä»“
+	//ÀúÊ·³Ö²Ö
 	std::map<std::string, long> HistoryPositions;
-	//å¯å–æŒä»“
+	//¿ÉÂô³Ö²Ö
 	std::map<std::string, long> AvailablePositions;
 };
 struct TimeLongValue
@@ -398,7 +398,7 @@ struct TimeLongValue
 	long value = 0;
 };
 
-// ç”¨äºå®æ—¶é€šçŸ¥
+// ÓÃÓÚÊµÊ±Í¨Öª
 struct StrategyExecuteReport
 {
 	string StrategyName;
@@ -407,7 +407,7 @@ struct StrategyExecuteReport
 	int DataTimeStamp;
 	string Text;
 };
-//ç”¨æˆ·ä¿å­˜æ‰§è¡ŒæŠ¥å‘Š
+//ÓÃ»§±£´æÖ´ĞĞ±¨¸æ
 struct InstrumentStrategyExecuteReport
 {
 	string TradingDay;
