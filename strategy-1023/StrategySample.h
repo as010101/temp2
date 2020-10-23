@@ -42,6 +42,7 @@ private:
 	double m_PriceFactor = 0.4;
 	double m_VolumeFactor =5000;
 	double m_preSendPrice=0;
+	int m_flag = 0;
 };
 
 #endif

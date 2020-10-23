@@ -12,7 +12,7 @@ extern "C"
 		return new StrategySample(p_InstrumentStrategy);
 	}
 }
-
+																			
 StrategySample::StrategySample(InstrumentStrategyI * instrumentStrategy)
 	:m_InstrumentStrategy(instrumentStrategy),
 	m_Instrument(instrumentStrategy->GetInstrument()),
@@ -20,15 +20,24 @@ StrategySample::StrategySample(InstrumentStrategyI * instrumentStrategy)
 	m_StrategyContext(instrumentStrategy->GetInstrumentStrategyContext())
 {
 }
-
+																									
 StrategySample::~StrategySample()
-{
+{			
 }
-
+																										
 void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData)
 {
 	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)
 	{
+		if (m_flag == 0)
+		{
+			m_flag = 1;
+			StrategyExecuteReport report;
+			report.StrategyName = "920-925";						
+			report.Text = "flagMessage";
+			m_InstrumentStrategy->SendExecuteReportToClient(report);
+
+		}
 		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice
 		{
 			///涨停判断封单量
@@ -60,7 +69,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 					}
 					
 				}
-
+																															
 			}
 				
 		}
