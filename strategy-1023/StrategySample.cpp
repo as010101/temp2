@@ -27,6 +27,17 @@ StrategySample::~StrategySample()
 																										
 void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData)
 {
+	
+	
+		if (m_flag == 0  &&  marketData.SecurityID=="600519")
+	{
+		m_flag = 1;
+		StrategyExecuteReport report;
+		report.StrategyName = "920-925";
+		report.Text = "flagMessage";
+		m_InstrumentStrategy->SendExecuteReportToClient(report);
+
+	}
 	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)
 	{
 		if (m_flag == 0)
@@ -38,9 +49,9 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			m_InstrumentStrategy->SendExecuteReportToClient(report);
 
 		}
-		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///Èç¹ûÂòÒ»ÊÇlimitPrice
+		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///å¦‚æžœä¹°ä¸€æ˜¯limitPrice
 		{
-			///ÕÇÍ£ÅÐ¶Ï·âµ¥Á¿
+			///æ¶¨åœåˆ¤æ–­å°å•é‡
 			m_isLimit = 1;
 			if (m_preSendVolume == 0)
 			{
@@ -49,7 +60,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			}
 			else
 			{
-				//·ñÔòÅÐ¶ÏÊÇ·ñÔöÁ¿£¬ÓÐÔöÁ¿ÔòÌæ»»	m_preSendVolume
+				//å¦åˆ™åˆ¤æ–­æ˜¯å¦å¢žé‡ï¼Œæœ‰å¢žé‡åˆ™æ›¿æ¢	m_preSendVolume
 				if ((marketData.BidVolume1 - m_preSendVolume) > 0)
 				{
 					int num = marketData.BidVolume1 - m_preSendVolume;
@@ -59,7 +70,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 					report.Text = marketData.SecurityID + to_string(marketData.DataTimeStamp) + to_string((num* marketData.BidPrice1) / (m_minVolume* marketData.BidPrice1));
 				//	m_InstrumentStrategy->SendExecuteReportToClient(report);
 					int VolumeFactor = (marketData.BidVolume1 - m_minVolume) / marketData.BidPrice1;
-					if (VolumeFactor > m_VolumeFactor)  ///´Ó9£º20¿ªÊ¼ volume  scale³¬¹ýÒ»¶¨³ß¶È£¬ÔòÎ¯ÍÐ																				
+					if (VolumeFactor > m_VolumeFactor)  ///ä»Ž9ï¼š20å¼€å§‹ volume  scaleè¶…è¿‡ä¸€å®šå°ºåº¦ï¼Œåˆ™å§”æ‰˜																				
 					{
 						StrategyExecuteReport report;					
 						report.StrategyName = "920-925";				
@@ -75,7 +86,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 		}
 		else
 		{
-			if (m_isLimit == 1)  //ÆÆ°åÁË
+			if (m_isLimit == 1)  //ç ´æ¿äº†
 			{
 				return;
 			}
@@ -88,7 +99,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 				}
 				else
 				{
-					//·ñÔòÅÐ¶ÏÊÇ·ñÔöÁ¿£¬ÓÐÔöÁ¿ÔòÌæ»»	m_preSendPrice
+					//å¦åˆ™åˆ¤æ–­æ˜¯å¦å¢žé‡ï¼Œæœ‰å¢žé‡åˆ™æ›¿æ¢	m_preSendPrice
 					if ((marketData.BidPrice1 - m_preSendPrice) > 0)
 					{
 						double scale=marketData.BidPrice1 - m_preSendPrice;
@@ -97,8 +108,8 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 						report.StrategyName = "925";
 						report.Text = marketData.SecurityID + to_string(marketData.DataTimeStamp) + to_string(scale / m_minPrice);
 						m_InstrumentStrategy->SendExecuteReportToClient(report);
-						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///Ïà¶ÔÓÚ³õÊ¼¼Û¸ñÕÇÁË¶àÉÙ
-						if (PriceFactor > m_PriceFactor)  ///´Ó9£º20¿ªÊ¼ volume  scale³¬¹ýÒ»¶¨³ß¶È£¬ÔòÎ¯ÍÐ
+						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///ç›¸å¯¹äºŽåˆå§‹ä»·æ ¼æ¶¨äº†å¤šå°‘
+						if (PriceFactor > m_PriceFactor)  ///ä»Ž9ï¼š20å¼€å§‹ volume  scaleè¶…è¿‡ä¸€å®šå°ºåº¦ï¼Œåˆ™å§”æ‰˜
 						{
 							StrategyExecuteReport report;
 							report.StrategyName = "920-925";
