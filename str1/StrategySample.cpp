@@ -50,7 +50,10 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 
 		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice														
 		{
-			///涨停判断封单量				
+			//
+			///涨停判断封单量			
+			//		这里暂时先return			!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			return;
 			m_isLimit = 1;
 			if (m_preSendVolume == 0)
 			{
@@ -75,7 +78,8 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 						report.StrategyName = "920-925";				
 						report.Text = "exec buy order-- volume";				
 						m_InstrumentStrategy->SendExecuteReportToClient(report);					
-					//	m_InstrumentStrategy->SendBuyOrder();																																					
+					//	m_InstrumentStrategy->SendBuyOrder();	
+						OnStrategyStop();
 					}
 					
 				}
@@ -118,8 +122,9 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 
 						m_preSendPrice = marketData.BidPrice1;
 						StrategyExecuteReport report;
-						report.StrategyName = "925";
-						report.Time = marketData.DataTimeStamp;
+						report.StrategyName = "920-925";
+						report.Time = to_string(marketData.DataTimeStamp);
+						report.DataTimeStamp = marketData.DataTimeStamp;
 						report.Text = marketData.SecurityID +"--"+ to_string(marketData.DataTimeStamp) + "scale:"+to_string(scale / m_minPrice)+"price:"+ to_string(m_preSendPrice);
 						m_InstrumentStrategy->SendExecuteReportToClient(report);
 						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
@@ -127,12 +132,13 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 						{
 							printf("sendMyOrder!!!---scale:%f\n", scale);
 							StrategyExecuteReport report;
+							report.Time = to_string(marketData.DataTimeStamp);
 							report.DataTimeStamp = marketData.DataTimeStamp;
-
 							report.StrategyName = "920-925";
 							report.Text = "exec buy order--price trigger !!!--currScale"+to_string(PriceFactor);
 							m_InstrumentStrategy->SendExecuteReportToClient(report);
-							m_InstrumentStrategy->SendBuyOrder();					
+							m_InstrumentStrategy->SendBuyOrder();	
+							OnStrategyStop();
 						}
 					}
 
