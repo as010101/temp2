@@ -27,10 +27,8 @@ StrategySample::~StrategySample()
 																										
 void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData)
 {
-
 	m_count++;
-	int res = m_count % 10000;
-	printf("%d",m_count);
+	int res = m_count % 10;
 	printf("%d",res);
 	if (res == 0 )
 	{
