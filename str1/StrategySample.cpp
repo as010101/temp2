@@ -40,15 +40,12 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 //		m_InstrumentStrategy->SendExecuteReportToClient(report);										
 //
 //	}
-	StrategyExecuteReport report;
-	report.StrategyName = "TEST";
-	report.Time = marketData.DataTimeStamp;
-	report.Text = "------";
-	m_InstrumentStrategy->SendExecuteReportToClient(report);
+	
 
 
 	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)										
 	{
+		printf("in 92000000 and  92500000 Time=%d\n", marketData.DataTimeStamp);
 
 
 		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice														
@@ -96,12 +93,14 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			{
 				if (m_preSendPrice == 0)
 				{
-					StrategyExecuteReport report;
-					report.StrategyName = "TEST";
-					report.Time = marketData.DataTimeStamp;
-					report.Text = "--init price-";
+
+					//StrategyExecuteReport report;
+					//report.StrategyName = "TEST";
+					//report.Time = marketData.DataTimeStamp;
+					//report.Text = "--init price-";
 					m_preSendPrice = marketData.BidPrice1;
 					m_minPrice= marketData.BidPrice1;
+					printf("--init price-\n");
 				}
 				else
 				{
@@ -112,8 +111,11 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 					{
 			
 						
+				
 
 						double scale=marketData.BidPrice1 - m_preSendPrice;
+						printf("scale--increase!!!---scale:%f\n", scale);
+
 						m_preSendPrice = marketData.BidPrice1;
 						StrategyExecuteReport report;
 						report.StrategyName = "925";
@@ -123,6 +125,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
 						if (PriceFactor > m_PriceFactor)  ///从9：20开始 volume  scale超过一定尺度，则委托
 						{
+							printf("sendMyOrder!!!---scale:%f\n", scale);
 							StrategyExecuteReport report;
 							report.DataTimeStamp = marketData.DataTimeStamp;
 
@@ -146,7 +149,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 	{
 		OnStrategyStop();
 	}
-	printf("StrategySample OnRealtimeMarketData SecurityId=%s,Volume=%ld\n",marketData.SecurityID.c_str(),marketData.Volume);
+	printf("StrategySample OnRealtimeMarketData SecurityId=%s,Volume=%ld ,Time=%d\n",marketData.SecurityID.c_str(),marketData.Volume,marketData.DataTimeStamp);
 }
 
 void StrategySample::OnStrategyStart()
