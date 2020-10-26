@@ -27,6 +27,14 @@ StrategySample::~StrategySample()
 																										
 void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData)
 {
+
+
+                StrategyExecuteReport report;
+                report.StrategyName = "920-925";
+                report.Text = "flagMessage-"+ marketData.SecurityID;                    
+                m_InstrumentStrategy->SendExecuteReportToClient(report);  
+
+
 	m_count++;
 	int res = m_count % 10;
 	printf("%d",res);
