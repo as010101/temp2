@@ -35,6 +35,7 @@ namespace Lev2
 		Canceled
 	};
 
+
 	struct RealtimeDepthMarketDataEx
 	{
 		int Id = 0;
@@ -131,6 +132,7 @@ namespace Lev2
 		double UpdatePrice = 0;
 		long long int UpdateVolume = 0LL;
 
+		
 	};
 
 }
@@ -170,6 +172,8 @@ namespace stgapi
 	using InstrumentAccountList = ::std::vector<InstrumentAccountInfo>;
 
 	typedef ::std::map< ::std::string, ::std::string> PropertyDictionary;
+	using TagList = ::std::vector<::std::string>;
+
 	/**
 	* 交易合约定义，白名单中一行
 	*/
@@ -193,7 +197,15 @@ namespace stgapi
 		InstrumentAccountList Accounts;
 		PropertyDictionary ExProperties;
 
-		
+		/**
+		* Obtains a tuple containing all of the exception's data members.
+		* @return The data members in a tuple.
+		*/
+
+		std::tuple<const ::std::string&, const ::std::string&, const ::std::string&, const double&, const double&, const long long int&, const bool&, const bool&, const ::std::string&, const double&, const double&, const long long int&, const ::std::string&, const bool&, const bool&, const InstrumentAccountList&, const PropertyDictionary&> ice_tuple() const
+		{
+			return std::tie(SecurityId, SecurityName, BuyPriceType, BuyPrice, BuyPriceFactor, BuyVolume, BuyTriggered, BuyCanceled, SellPriceType, SellPrice, SellPriceFactor, SellVolume, SellPolicy, SellTriggered, SellCanceled, Accounts, ExProperties);
+		}
 	};
 
 	/**
@@ -265,36 +277,46 @@ namespace stgapi
 	};
 
 
+	using TriggerParameterDictionary = ::std::map<::std::string, TriggerParameter>;
+
+
+	enum class StrategyMode : unsigned char
+	{
+		Realtime,
+		Simulator
+	};
+
+	enum TimePharse
+	{
+		T925,
+		T930
+	};
+
 	/**
 	* 策略参数定义
 	*/
 	struct StrategyParameter
 	{
-		/** Default constructor that assigns default values to members as specified in the Slice definition. */
-		StrategyParameter() :
-			TimeBegin(91500),
-			TimeEnd(150000),
-			BidVolumeUpperLimit(100000),
-			BidVolumeLowerLimit(1000),
-			BuyRepeatTimes(2),
-			LaterThanLocalTimeThreshold(4),
-			BuyInstrumentNumUpperLimit(80),
-			TwapSellNoofTimes(20),
-			TwapSellTimeInterval(300),
-			TwapCancelTimeInterval(30),
-			AuctionSellTimeAhead(5),
-			ProposedSellingPercent(0),
-			LowerLimitSellAmount(20000),
-			AuctionPriceDelt(2)
-			{
-			}
-
-		
-
-
+		/**
+		* 策略名称
+		*/
 		::std::string Name;
-		int TimeBegin;
-		int TimeEnd;
+		/**
+		* 策略扩展库名称
+		*/
+		::std::string SoName;
+		/**
+		* 策略运行模式
+		*/
+		StrategyMode Mode = ::stgapi::StrategyMode::Realtime;
+		/**
+		* 买入交易开始时间,精确到秒
+		*/
+		int TimeBegin = 91500;
+		/**
+		* 买入交易截止时间，精确到秒
+		*/
+		int TimeEnd = 150000;
 		/**
 		* 初始白名单名称
 		*/
@@ -302,63 +324,100 @@ namespace stgapi
 		/**
 		* 单笔委托量拆单上限
 		*/
-		long long int BidVolumeUpperLimit;
+		long long int BidVolumeUpperLimit = 100000LL;
 		/**
 		* 单笔委托量拆单下限
 		*/
-		long long int BidVolumeLowerLimit;
+		long long int BidVolumeLowerLimit = 1000LL;
 		/**
 		* 可重复买入次数
 		*/
-		int BuyRepeatTimes;
+		int BuyRepeatTimes = 2;
 		/**
 		* 行情延时阈值(秒)
 		*/
-		int LaterThanLocalTimeThreshold;
+		int LaterThanLocalTimeThreshold = 4;
 		/**
 		* 买入触发个股上限
 		*/
-		int BuyInstrumentNumUpperLimit;
+		int BuyInstrumentNumUpperLimit = 80;
+		/**
+		* 买入触发热点个股上限
+		*/
+		int BuyInstrumentNumInTag = 3;
+		/**
+		* 买入概念涨停个股统计开始阶段
+		*/
+		TimePharse UpLmtCounterBeginTime = ::stgapi::TimePharse::T925;
 		/**
 		* TWAP每次标准卖出量除数
 		*/
-		int TwapSellNoofTimes;
+		int TwapSellNoofTimes = 20;
 		/**
 		* TWAP卖出时间间隔(秒)
 		*/
-		int TwapSellTimeInterval;
+		int TwapSellTimeInterval = 300;
 		/**
 		* TWAP卖出未成交撤单间隔(秒)
 		*/
-		int TwapCancelTimeInterval;
+		int TwapCancelTimeInterval = 30;
 		/**
 		* 集合竞价卖出时间提前量(ms)
 		*/
-		int AuctionSellTimeAhead;
+		int AuctionSellTimeAhead = 5;
 		/**
 		* 计划卖出比例(%)
 		*/
-		int ProposedSellingPercent;
+		int ProposedSellingPercent = 0;
 		/**
 		* 单笔卖出金额下限
 		*/
-		double LowerLimitSellAmount;
+		double LowerLimitSellAmount = 20000;
 		/**
 		* 集合竞价卖单价格下浮调节量(分)
 		*/
-		int AuctionPriceDelt;
+		int AuctionPriceDelt = 2;
 		TriggerParameter BuyTriggerParameter;
 		TriggerParameter SellTriggerParameter;
 		TriggerParameter CancelTriggerParameter;
+		TriggerParameterDictionary BuyTriggerParameterOthers;
+		TriggerParameterDictionary CancelTriggerParameterOthers;
+		TriggerParameterDictionary SellTriggerParameterOthers;
 		/**
 		* 附加动态属性
 		*/
 		PropertyDictionary ExProperties;
+
+		/**
+		* Obtains a tuple containing all of the exception's data members.
+		* @return The data members in a tuple.
+		*/
+
+		std::tuple<const ::std::string&, const ::std::string&, const StrategyMode&, const int&, const int&, const ::std::string&, const long long int&, const long long int&, const int&, const int&, const int&, const int&, const TimePharse&, const int&, const int&, const int&, const int&, const int&, const double&, const int&, const TriggerParameter&, const TriggerParameter&, const TriggerParameter&, const TriggerParameterDictionary&, const TriggerParameterDictionary&, const TriggerParameterDictionary&, const PropertyDictionary&> ice_tuple() const
+		{
+			return std::tie(Name, SoName, Mode, TimeBegin, TimeEnd, InstrumentListName, BidVolumeUpperLimit, BidVolumeLowerLimit, BuyRepeatTimes, LaterThanLocalTimeThreshold, BuyInstrumentNumUpperLimit, BuyInstrumentNumInTag, UpLmtCounterBeginTime, TwapSellNoofTimes, TwapSellTimeInterval, TwapCancelTimeInterval, AuctionSellTimeAhead, ProposedSellingPercent, LowerLimitSellAmount, AuctionPriceDelt, BuyTriggerParameter, SellTriggerParameter, CancelTriggerParameter, BuyTriggerParameterOthers, CancelTriggerParameterOthers, SellTriggerParameterOthers, ExProperties);
+		}
 	};
+
+
 }
 
 using namespace Lev2;
 using namespace stgapi;
+
+
+struct ExMarketData
+{
+	//集合竞价最大涨停概念
+	string GaiNianMaxUpLmtCount925;
+	//集合竞价最大涨停概念的涨停数
+	int	   MaxUpLmtCount925 = 0;
+	//连续竞价阶段最大涨停概念
+	string GaiNianMaxUpLmtCount930;
+	//连续竞价阶段最大涨停概念的涨停数
+	int    MaxUpLmtCount930 = 0;
+};
+
 struct InstrumentStrategyContext
 {
 	//当前盘口
@@ -376,6 +435,10 @@ struct InstrumentStrategyContext
 	//触发撤单的盘口行情快照
 	RealtimeDepthMarketDataEx MarketDataCancelTriggered;
 
+	//计算的扩展行情
+	ExMarketData ExtendedMarketData;
+
+	
 	//买入触发次数
 	int  NumberOfBuyTriggered = 0;
 	//是否允许买入
@@ -461,4 +524,6 @@ struct StrategyOrderInfo
 	int FilledSellOrderNum = 0;
 	int CanceledSellOrderNum = 0;
 };
+
+
 #endif

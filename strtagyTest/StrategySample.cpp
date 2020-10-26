@@ -12,7 +12,7 @@ extern "C"
 		return new StrategySample(p_InstrumentStrategy);
 	}
 }
-
+																			
 StrategySample::StrategySample(InstrumentStrategyI * instrumentStrategy)
 	:m_InstrumentStrategy(instrumentStrategy),
 	m_Instrument(instrumentStrategy->GetInstrument()),
@@ -20,18 +20,33 @@ StrategySample::StrategySample(InstrumentStrategyI * instrumentStrategy)
 	m_StrategyContext(instrumentStrategy->GetInstrumentStrategyContext())
 {
 }
-
+																									
 StrategySample::~StrategySample()
-{
+{				
 }
-
+																										
 void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & marketData)
 {
-	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)
+//	m_count++;
+//	int res = m_count % 10;
+//	printf("%d",res);
+//	if (res == 0 )
+//	{
+//		m_flag = 1;
+//		StrategyExecuteReport report;
+//		report.DataTimeStamp = marketData.DataTimeStamp;
+//		report.StrategyName = "920-925";
+//		report.Text = "flagMessage-"+ marketData.SecurityID;										
+//		m_InstrumentStrategy->SendExecuteReportToClient(report);										
+//
+//	}
+
+	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)										
 	{
-		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice
+
+		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice														
 		{
-			///涨停判断封单量
+			///涨停判断封单量				
 			m_isLimit = 1;
 			if (m_preSendVolume == 0)
 			{
@@ -46,21 +61,21 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 					int num = marketData.BidVolume1 - m_preSendVolume;
 					m_preSendVolume = marketData.BidVolume1;
 					StrategyExecuteReport report;
-					report.StrategyName = "920-925";
+					report.StrategyName = "920-925";						
 					report.Text = marketData.SecurityID + to_string(marketData.DataTimeStamp) + to_string((num* marketData.BidPrice1) / (m_minVolume* marketData.BidPrice1));
-					m_InstrumentStrategy->SendExecuteReportToClient(report);
-					int VolumeFactor = (marketData.BidVolume1 - m_minVolume) / m_minVolume;
-					if (VolumeFactor > 5000)  ///从9：20开始 volume  scale超过一定尺度，则委托
+				//	m_InstrumentStrategy->SendExecuteReportToClient(report);
+					int VolumeFactor = (marketData.BidVolume1 - m_minVolume) / marketData.BidPrice1;
+					if (VolumeFactor > m_VolumeFactor)  ///从9：20开始 volume  scale超过一定尺度，则委托																				
 					{
-						StrategyExecuteReport report;
-						report.StrategyName = "920-925";
-						report.Text = "exec buy order-- volume";
-						m_InstrumentStrategy->SendExecuteReportToClient(report);
-					//	m_InstrumentStrategy->SendBuyOrder();
+						StrategyExecuteReport report;					
+						report.StrategyName = "920-925";				
+						report.Text = "exec buy order-- volume";				
+						m_InstrumentStrategy->SendExecuteReportToClient(report);					
+					//	m_InstrumentStrategy->SendBuyOrder();																																					
 					}
 					
 				}
-
+																															
 			}
 				
 		}
@@ -79,26 +94,33 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 				}
 				else
 				{
+
+
 					//否则判断是否增量，有增量则替换	m_preSendPrice
 					if ((marketData.BidPrice1 - m_preSendPrice) > 0)
 					{
+
+
 						double scale=marketData.BidPrice1 - m_preSendPrice;
 						m_preSendPrice = marketData.BidPrice1;
 						StrategyExecuteReport report;
 						report.StrategyName = "925";
-						report.Text = marketData.SecurityID + to_string(marketData.DataTimeStamp) + to_string(scale / m_minPrice);
+						report.Text = marketData.SecurityID + to_string(marketData.DataTimeStamp) + "scale:"+to_string(scale / m_minPrice);
 						m_InstrumentStrategy->SendExecuteReportToClient(report);
+						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
+						if (PriceFactor > m_PriceFactor)  ///从9：20开始 volume  scale超过一定尺度，则委托
+						{
+							StrategyExecuteReport report;
+							report.DataTimeStamp = marketData.DataTimeStamp;
+
+							report.StrategyName = "920-925";
+							report.Text = "exec buy order-- price";
+							m_InstrumentStrategy->SendExecuteReportToClient(report);
+							//m_InstrumentStrategy->SendBuyOrder();					
+						}
 					}
 
-					double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
-					if (PriceFactor > 0.4)  ///从9：20开始 volume  scale超过一定尺度，则委托
-					{
-						StrategyExecuteReport report;
-						report.StrategyName = "920-925";
-						report.Text = "exec buy order-- price";
-						m_InstrumentStrategy->SendExecuteReportToClient(report);
-						//m_InstrumentStrategy->SendBuyOrder();
-					}
+		
 
 				}
 
@@ -122,6 +144,10 @@ void StrategySample::OnStrategyStart()
 void StrategySample::OnStrategyStop()
 {
 	printf("StrategySample OnStrategyStop\n");
+}
+void StrategySample::OnTriggerParameterUpdate(const TriggerParameter& triggerParameter)
+{
+	printf("StrategySample OnTriggerParameterUpdate\n");
 }
 
 string StrategySample::GetStrategyStatus()

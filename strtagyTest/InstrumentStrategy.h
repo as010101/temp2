@@ -14,9 +14,9 @@ public:
 	//获取策略名称
 	virtual string Name() = 0;
 	//获取当前策略的合约信息
-	virtual Instrument GetInstrument()=0;
+	virtual Instrument& GetInstrument() = 0;
 	//获取当前策略参数设置
-	virtual StrategyParameter GetStrategyParameter() = 0;
+	virtual StrategyParameter& GetStrategyParameter() = 0;
 	//获取当前策略运行时状态
 	virtual InstrumentStrategyContext& GetInstrumentStrategyContext() = 0;
 	//按合约信息中的价和量发送买单
@@ -33,19 +33,22 @@ public:
 	virtual StrategyOrderInfo QryStrategyOrderInfo() = 0;
 	//记录日志
 	virtual void writelog(const string categary, const int dataTimeStamp, const string text) = 0;
-	//判断当前策略是否有当日买单										
-	virtual bool HasBuyOrders() = 0;										
-	//获取可用持仓																
-	virtual map<string, long> GetAvailablePositions() = 0;																
-	//买单触发后置处理																			
-	virtual void PostBuyTriggered() = 0;																						
+	//判断当前策略是否有当日买单
+	virtual bool HasBuyOrders() = 0;
+	//获取可用持仓
+	virtual map<string, long> GetAvailablePositions() = 0;
+	//买单触发后置处理
+	virtual void PostBuyTriggered() = 0;
 
-	//启动TWAP卖出任务																		
-	virtual void StartTWAPSell() = 0;																	
-	//启动开板TWAP卖出													
+	//启动TWAP卖出任务
+	virtual void StartTWAPSell() = 0;
+	//启动开板TWAP卖出
 	virtual void StartSellUplmt() = 0;
 	//启动集合竞价卖出
 	virtual void StartSellAuction() = 0;
+	//是否为实盘场景
+	virtual bool IsRealtimeScenario() = 0;
+
 };
 
 
@@ -74,6 +77,11 @@ public:
 	*@param initCapital 初始仓位金额
 	*/
 	virtual double GetActualInitCapital(double initCapital) = 0;
+
+	/*更改触发器参数
+	*@param triggerParameter 触发器参数
+	*/
+	virtual void OnTriggerParameterUpdate(const TriggerParameter& triggerParameter) = 0;
 
 };
 
