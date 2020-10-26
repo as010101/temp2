@@ -40,9 +40,16 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 //		m_InstrumentStrategy->SendExecuteReportToClient(report);										
 //
 //	}
+	StrategyExecuteReport report;
+	report.StrategyName = "TEST";
+	report.Time = marketData.DataTimeStamp;
+	report.Text = "------";
+	m_InstrumentStrategy->SendExecuteReportToClient(report);
+
 
 	if (marketData.DataTimeStamp >= 92000000 && marketData.DataTimeStamp <= 92500000)										
 	{
+
 
 		if (marketData.BidPrice1==marketData.UpperLimitPrice)   ///如果买一是limitPrice														
 		{
@@ -89,6 +96,10 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			{
 				if (m_preSendPrice == 0)
 				{
+					StrategyExecuteReport report;
+					report.StrategyName = "TEST";
+					report.Time = marketData.DataTimeStamp;
+					report.Text = "--init price-";
 					m_preSendPrice = marketData.BidPrice1;
 					m_minPrice= marketData.BidPrice1;
 				}
@@ -99,12 +110,14 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 					//否则判断是否增量，有增量则替换	m_preSendPrice
 					if ((marketData.BidPrice1 - m_preSendPrice) > 0)
 					{
-
+			
+						
 
 						double scale=marketData.BidPrice1 - m_preSendPrice;
 						m_preSendPrice = marketData.BidPrice1;
 						StrategyExecuteReport report;
 						report.StrategyName = "925";
+						report.Time = marketData.DataTimeStamp;
 						report.Text = marketData.SecurityID +"--"+ to_string(marketData.DataTimeStamp) + "scale:"+to_string(scale / m_minPrice)+"price:"+ to_string(m_preSendPrice);
 						m_InstrumentStrategy->SendExecuteReportToClient(report);
 						double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
@@ -114,7 +127,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 							report.DataTimeStamp = marketData.DataTimeStamp;
 
 							report.StrategyName = "920-925";
-							report.Text = "exec buy order--price trigger--currScale"+to_string(PriceFactor);
+							report.Text = "exec buy order--price trigger !!!--currScale"+to_string(PriceFactor);
 							m_InstrumentStrategy->SendExecuteReportToClient(report);
 							m_InstrumentStrategy->SendBuyOrder();					
 						}
