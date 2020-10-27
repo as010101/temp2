@@ -78,6 +78,8 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			m_preSendPrice = marketData.BidPrice1;
 			m_minPrice = marketData.BidPrice1;
 			m_TimePredict = 92000000;
+			m_InstrumentStrategy->SendExecuteReportToClient(report);
+
 		}
 		else
 		{
@@ -90,6 +92,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 				report.Time = to_string(marketData.DataTimeStamp);
 				report.DataTimeStamp = marketData.DataTimeStamp;
 				report.Text = "TIME-UPDATE!!!curr:" + to_string(marketData.DataTimeStamp)+"nextPoint:"+to_string(m_TimePredict);
+				m_InstrumentStrategy->SendExecuteReportToClient(report);
 
 				//否则判断是否增量，有增量则替换	m_preSendPrice
 				if ((marketData.BidPrice1 - m_preSendPrice) > 0)
