@@ -85,8 +85,7 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 		{
 			if (marketData.DataTimeStamp > m_TimePredict)   ///  10s ≈‹“ª¥Œ
 			{
-				m_TimePredict = m_TimePredict + 10000;
-				m_TimePredict = TimeTransform(m_TimePredict);
+
 				//StrategyExecuteReport report;
 				//report.StrategyName = "920-925";
 				//report.Time = to_string(marketData.DataTimeStamp);
