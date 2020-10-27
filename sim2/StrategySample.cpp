@@ -87,23 +87,25 @@ void StrategySample::OnRealtimeMarketData(const RealtimeDepthMarketDataEx & mark
 			{
 				m_TimePredict = m_TimePredict + 10000;
 				m_TimePredict = TimeTransform(m_TimePredict);
-				StrategyExecuteReport report;
-				report.StrategyName = "920-925";
-				report.Time = to_string(marketData.DataTimeStamp);
-				report.DataTimeStamp = marketData.DataTimeStamp;
-				report.Text = "TIME-UPDATE!!!curr:" + to_string(marketData.DataTimeStamp)+"nextPoint:"+to_string(m_TimePredict);
-				m_InstrumentStrategy->SendExecuteReportToClient(report);
+				//StrategyExecuteReport report;
+				//report.StrategyName = "920-925";
+				//report.Time = to_string(marketData.DataTimeStamp);
+				//report.DataTimeStamp = marketData.DataTimeStamp;
+				//report.Text = "TIME-UPDATE!!!curr:" + to_string(marketData.DataTimeStamp)+"--nextPoint:"+to_string(m_TimePredict);
+				//m_InstrumentStrategy->SendExecuteReportToClient(report);
 
 				//否则判断是否增量，有增量则替换	m_preSendPrice
 				if ((marketData.BidPrice1 - m_preSendPrice) > 0)
 				{
+					m_TimePredict = marketData.DataTimeStamp + 10000;
+					m_TimePredict = TimeTransform(m_TimePredict);
 					double scale = marketData.BidPrice1 - m_minPrice;
 					m_preSendPrice = marketData.BidPrice1;
 					StrategyExecuteReport report;
 					report.StrategyName = "920-925";
 					report.Time = to_string(marketData.DataTimeStamp);
 					report.DataTimeStamp = marketData.DataTimeStamp;
-					report.Text = marketData.SecurityID + "--" + to_string(marketData.DataTimeStamp) + "scale:" + to_string(scale / m_minPrice) + "price:" + to_string(m_preSendPrice);
+					report.Text = marketData.SecurityID + "--" + to_string(marketData.DataTimeStamp) + "scale:" + to_string(scale / m_minPrice) + "price:" + to_string(m_preSendPrice)+"--nextPoint:"+ to_string(m_TimePredict);
 					m_InstrumentStrategy->SendExecuteReportToClient(report);
 					double PriceFactor = (marketData.BidPrice1 - m_minPrice) / m_minPrice;  ///相对于初始价格涨了多少
 					if (PriceFactor > m_PriceFactor)  ///从9：20开始 volume  scale超过一定尺度，则委托
